@@ -2,11 +2,11 @@ const mysql = require("mysql2/promise");
 require("dotenv").config();
 
 const pool = mysql.createPool({
-  host: process.env.DB_HOST || "localhost",
-  user: process.env.DB_USER || "root",
-  password: process.env.DB_PASSWORD || "",
-  database: process.env.DB_NAME || "job_portal",
-  port: process.env.DB_PORT || 3306,
+  host: process.env.DB_HOST || "dpg-d4jphkbe5dus73eot2u0-a",
+  user: process.env.DB_USER || "job_portal_database_0o7q_user",
+  password: process.env.DB_PASSWORD || "mw78q4mAqDUetzUu4YtXOsP297CSAyGT",
+  database: process.env.DB_NAME || "job_portal_database_0o7q",
+  port: process.env.DB_PORT || 5432,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
