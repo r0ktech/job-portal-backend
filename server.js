@@ -63,6 +63,11 @@ app.use((req, res, next) => {
   next();
 });
 
+// Serve frontend static files from the `frontend` folder so the app runs
+// from the same origin as the API (avoids CORS/mixed-content issues during dev)
+const frontendPath = path.join(__dirname, "..", "frontend");
+app.use(express.static(frontendPath));
+
 // Request logging middleware (before routes for better debugging)
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
@@ -73,6 +78,12 @@ app.use((req, res, next) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api", applicationRoutes);
+
+// SPA fallback: serve `index.html` for any non-API GET requests (HTML5 history support)
+app.get("*", (req, res, next) => {
+  if (req.path.startsWith("/api") || req.path === "/health") return next();
+  res.sendFile(path.join(frontendPath, "index.html"));
+});
 
 // Health check endpoint
 app.get("/health", (req, res) => {
